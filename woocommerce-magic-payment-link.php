@@ -2,7 +2,7 @@
 /**
  * Plugin Name: WooCommerce Magic Payment Link
  * Description: Adds secure 30-day magic payment links to WooCommerce orders. A valid link signs in the customer attached to the order and lets WooCommerce / WooCommerce Subscriptions handle the native payment flow.
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: FirstTracks Marketing
  * Author URI: https://firsttracksmarketing.com
  * Requires Plugins: woocommerce, woocommerce-subscriptions
@@ -217,6 +217,12 @@ final class CEG_No_Login_Order_Payment_Links {
 		$button_id = 'ceg-copy-payment-link-' . $order_id;
 
 		echo '<input type="text" id="' . esc_attr( $field_id ) . '" value="' . esc_attr( $link ) . '" readonly style="width:100%; margin-bottom:8px;" onclick="this.select();" />';
+
+		if ( $expires ) {
+			$expiration_text = wp_date( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $expires );
+			echo '<p style="margin:0 0 8px;color:#646970;font-size:12px;">' . esc_html__( 'Expires:', 'ceg-no-login-order-payment' ) . ' ' . esc_html( $expiration_text ) . '</p>';
+		}
+
 		echo '<p style="display:flex; gap:6px; flex-wrap:wrap; margin:0;">';
 		echo '<button type="button" class="button" id="' . esc_attr( $button_id ) . '"' . ( $link ? '' : ' disabled' ) . '>' . esc_html__( 'Copy link', 'ceg-no-login-order-payment' ) . '</button>';
 
